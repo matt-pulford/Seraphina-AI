@@ -5,6 +5,8 @@ import gdown
 import random
 import re
 from flask import Flask, request, jsonify
+import os
+from pyngrok import ngrok
 
 # Configuration parameters
 google_drive_folder_id = "1_TwHYLBaNzF4dEllNHaCQCwy4m2aXicm"
@@ -123,4 +125,8 @@ def generate():
     return jsonify({"response": response})
 
 if __name__ == '__main__':
+    # Setup ngrok and get the public URL
+    public_url = ngrok.connect(5000)
+    print(f"Public URL: {public_url}")
+    # Run the Flask app
     app.run(host='0.0.0.0', port=5000)

@@ -9,3 +9,4 @@ flask
 flask-restful
 torch
 transformers
+pyngrok
