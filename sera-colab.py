@@ -125,8 +125,12 @@ def generate():
     return jsonify({"response": response})
 
 if __name__ == '__main__':
-    # Setup ngrok and get the public URL
+    # Set up ngrok with authtoken
+    ngrok.set_auth_token("2iA1HTgvt9OEj7Lni5Tqj9UcHrF_Qn8RecxvWqoquLZ7uFp1")
+    
+    # Create a public URL for the Flask app
     public_url = ngrok.connect(5000)
     print(f"Public URL: {public_url}")
+    
     # Run the Flask app
     app.run(host='0.0.0.0', port=5000)
