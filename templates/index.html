@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seraphina Chat</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #chatbox {
+            width: 100%;
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .user {
+            font-weight: bold;
+            color: blue;
+        }
+        .seraphina {
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat with Seraphina</h1>
+    <div id="chatbox"></div>
+    <form id="chatForm">
+        <input type="text" id="message" name="message" placeholder="Type your message" required>
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            let history = [];
+
+            $('#chatForm').on('submit', function(event) {
+                event.preventDefault();
+                let message = $('#message').val();
+                $('#message').val('');
+                $.post('/chat', { message: message }, function(data) {
+                    if (data.response) {
+                        $('#chatbox').append('<div class="message user">You: ' + message + '</div>');
+                        $('#chatbox').append('<div class="message seraphina">Seraphina: ' + data.response + '</div>');
+                        history.push({user: message, seraphina: data.response});
+                    } else if (data.error) {
+                        alert(data.error);
+                    }
+                    // Scroll to the bottom of the chatbox
+                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
